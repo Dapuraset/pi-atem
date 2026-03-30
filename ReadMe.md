@@ -17,3 +17,15 @@ Transitioning from a labor-centered economy to an attention-centered economy wit
 
 ## Status
 Experimental design + implementation layer (not official Pi Network code)
+## Architecture Overview
+
+PiRC-AI introduces a three-layer attention economy model:
+
+1. Attention Contribution  
+   Users generate verifiable attention through interaction.
+
+2. Attention Verification  
+   AI-based systems validate human authenticity and filter bots.
+
+3. Attention Monetization  
+   Attention is converted into tokenized value backed by real economic sinks (ads, data, AI training).
