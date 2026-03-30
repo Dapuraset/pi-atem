@@ -11,3 +11,15 @@ def process(data: dict):
     result = process_user(user, address)
 
     return result
+
+
+from nacl.signing import VerifyKey
+import base64
+
+def verify_signature(address, message, signature):
+    try:
+        verify_key = VerifyKey(bytes.fromhex(address))
+        verify_key.verify(message.encode(), base64.b64decode(signature))
+        return True
+    except:
+        return False
