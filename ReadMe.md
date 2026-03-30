@@ -29,3 +29,31 @@ PiRC-AI introduces a three-layer attention economy model:
 
 3. Attention Monetization  
    Attention is converted into tokenized value backed by real economic sinks (ads, data, AI training).
+## Token Model
+
+The reward mechanism follows a simple but robust formula:
+
+R = A × Q × V
+
+Where:
+- A = Attention (time/engagement)
+- Q = Quality score (interaction depth)
+- V = Verification score (human authenticity)
+
+This ensures fair distribution and resistance to manipulation.
+## Simulation
+
+The project includes simulation tools to evaluate:
+- Token emission dynamics
+- Network effects
+- Inflation control
+
+Future work includes AI-driven optimization of token distribution.
+## Risks & Challenges
+
+- Sybil attacks (multi-account abuse)
+- Fake attention generation
+- Centralization of verification AI
+- Token inflation without sufficient sinks
+
+These risks are actively considered in the design.
