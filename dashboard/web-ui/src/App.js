@@ -1,36 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [result, setResult] = useState(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newData = {
-        attention: Math.random() * 10,
-        quality: Math.random(),
-        verification: Math.random(),
-      };
+  const sendData = async () => {
+    const user = {
+      attention: Math.random() * 10,
+      quality: Math.random(),
+      behavior: Math.random(),
+      session_time: Math.random() * 10,
+      interaction_rate: Math.random() * 5,
+    };
 
-      newData.reward =
-        newData.attention *
-        newData.quality *
-        newData.verification;
+    const res = await fetch("http://localhost:8000/process", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user: user,
+        address: "USER_1",
+      }),
+    });
 
-      setData((prev) => [...prev.slice(-20), newData]);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+    const data = await res.json();
+    setResult(data);
+  };
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>PiRC-AI Dashboard</h1>
+      <h1>PiRC-AI Live Dashboard</h1>
 
-      {data.map((d, i) => (
-        <div key={i}>
-          Reward: {d.reward.toFixed(2)}
+      <button onClick={sendData}>
+        Generate Attention
+      </button>
+
+      {result && (
+        <div>
+          <p>Verification: {result.verification.toFixed(3)}</p>
+          <p>Reward: {result.reward.toFixed(3)}</p>
         </div>
-      ))}
+      )}
     </div>
   );
 }
