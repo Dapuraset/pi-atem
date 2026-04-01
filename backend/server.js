@@ -35,3 +35,29 @@ app.post("/simulate", async (req, res) => {
 app.listen(3000, () => {
   console.log("🔥 PiRC API running on http://localhost:3000");
 });
+app.get("/rpc/health", async (req, res) => {
+  try {
+    const data = await rpc.getHealth();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/rpc/network", async (req, res) => {
+  try {
+    const data = await rpc.getNetwork();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/rpc/version", async (req, res) => {
+  try {
+    const data = await rpc.getVersionInfo();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
