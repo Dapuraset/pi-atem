@@ -32,3 +32,13 @@ app.get("/ledger/latest", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+app.get("/oracle/anomaly", async (req, res) => {
+  const data = await AIOracle.analyzeNetwork();
+  res.json({
+    risk: data.anomaly.risk,
+    score: data.anomaly.score,
+    ledger: data.ledger,
+    txCount: data.txCount,
+    insight: data.insight
+  });
+});
