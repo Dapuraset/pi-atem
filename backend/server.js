@@ -1,44 +1,37 @@
-const express = require("express");
-const { getHealth, getLatestLedger } = require("./piClient");
+import express from "express";
+import PiRPC from "../sdk/piRpc.js";
+import AIOracle from "../oracle/aiOracle.js";
 
 const app = express();
-const PORT = 3000;
+const rpc = new PiRPC();
 
-// root test
-app.get("/", (req, res) => {
-  res.send("Pi Backend API Running 🚀");
-});
+app.use(express.json());
 
-// health endpoint
+// HEALTH
 app.get("/health", async (req, res) => {
-  try {
-    const data = await getHealth();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const data = await rpc.getHealth();
+  res.json(data);
 });
 
-// latest ledger
-app.get("/ledger/latest", async (req, res) => {
-  try {
-    const ledger = await getLatestLedger();
-    res.json({ latestLedger: ledger });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+// LEDGER
+app.get("/ledger", async (req, res) => {
+  const data = await rpc.getLedger();
+  res.json(data);
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
-app.get("/oracle/anomaly", async (req, res) => {
+// AI INSIGHT
+app.get("/oracle/analysis", async (req, res) => {
   const data = await AIOracle.analyzeNetwork();
-  res.json({
-    risk: data.anomaly.risk,
-    score: data.anomaly.score,
-    ledger: data.ledger,
-    txCount: data.txCount,
-    insight: data.insight
-  });
+  res.json(data);
+});
+
+// SIMULASI TX
+app.post("/simulate", async (req, res) => {
+  const { from, to, amount } = req.body;
+  const result = await AIOracle.simulateTransaction(from, to, amount);
+  res.json(result);
+});
+
+app.listen(3000, () => {
+  console.log("🔥 PiRC API running on http://localhost:3000");
 });
