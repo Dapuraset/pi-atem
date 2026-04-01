@@ -1,43 +1,38 @@
 import fetch from "node-fetch";
 
-class PiRPC {
+export default class PiRPC {
   constructor(url = "https://rpc.testnet.minepi.com") {
     this.url = url;
   }
 
   async call(method, params = []) {
-    try {
-      const res = await fetch(this.url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          jsonrpc: "2.0",
-          id: Date.now(),
-          method,
-          params,
-        }),
-      });
+    const body = {
+      jsonrpc: "2.0",
+      id: 1,
+      method,
+      params
+    };
 
-      const data = await res.json();
-      return data.result;
-    } catch (err) {
-      console.error("RPC ERROR:", err.message);
-      return null;
-    }
+    const res = await fetch(this.url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    return await res.json();
   }
 
-  // helper level dewa
+  getNetwork() {
+    return this.call("getNetwork");
+  }
+
   getHealth() {
     return this.call("getHealth");
   }
 
-  getLedger() {
-    return this.call("getLatestLedger");
-  }
-
-  getAccount(address) {
-    return this.call("getAccount", [address]);
+  getVersionInfo() {
+    return this.call("getVersionInfo");
   }
 }
-
-export default PiRPC;
