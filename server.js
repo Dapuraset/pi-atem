@@ -6,7 +6,10 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ status: "OK", message: "server live" });
+  res.json({
+    status: "OK",
+    message: "server live"
+  });
 });
 
 app.listen(3000, () => {
