@@ -3,15 +3,10 @@ import express from "express";
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
-
 app.get("/", (req, res) => {
-  res.json({
-    status: "OK",
-    message: "server live"
-  });
+  res.send("Backend aktif 🚀");
 });
 
 app.listen(PORT, () => {
-  console.log(`🔥 Server running on http://localhost:${PORT}`);
+  console.log("Server jalan di port " + PORT);
 });
