@@ -9,32 +9,46 @@ app.use(express.json());
 
 // HEALTH
 app.get("/health", async (req, res) => {
-  const data = await rpc.getHealth();
-  res.json(data);
+  try {
+    const data = await rpc.getHealth();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // LEDGER
 app.get("/ledger", async (req, res) => {
-  const data = await rpc.getLedger();
-  res.json(data);
+  try {
+    const data = await rpc.getLedger();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // AI INSIGHT
 app.get("/oracle/analysis", async (req, res) => {
-  const data = await AIOracle.analyzeNetwork();
-  res.json(data);
+  try {
+    const data = await AIOracle.analyzeNetwork();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // SIMULASI TX
 app.post("/simulate", async (req, res) => {
-  const { from, to, amount } = req.body;
-  const result = await AIOracle.simulateTransaction(from, to, amount);
-  res.json(result);
+  try {
+    const { from, to, amount } = req.body;
+    const result = await AIOracle.simulateTransaction(from, to, amount);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.listen(3000, () => {
-  console.log("🔥 PiRC API running on http://localhost:3000");
-});
+// RPC HEALTH
 app.get("/rpc/health", async (req, res) => {
   try {
     const data = await rpc.getHealth();
@@ -44,6 +58,7 @@ app.get("/rpc/health", async (req, res) => {
   }
 });
 
+// RPC NETWORK
 app.get("/rpc/network", async (req, res) => {
   try {
     const data = await rpc.getNetwork();
@@ -53,6 +68,7 @@ app.get("/rpc/network", async (req, res) => {
   }
 });
 
+// RPC VERSION
 app.get("/rpc/version", async (req, res) => {
   try {
     const data = await rpc.getVersionInfo();
@@ -60,4 +76,8 @@ app.get("/rpc/version", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.listen(3000, () => {
+  console.log("🔥 PiRC API running on http://localhost:3000");
 });
