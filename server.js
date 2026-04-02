@@ -9,58 +9,32 @@ const rpc = new PiRPC();
 
 app.use(express.json());
 
-// HEALTH
 app.get("/health", async (req, res) => {
-  try {
-    const data = await rpc.getHealth();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const data = await rpc.getHealth();
+  res.json(data);
 });
 
-// LEDGER
 app.get("/ledger", async (req, res) => {
-  try {
-    const data = await rpc.getLedger();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const data = await rpc.getLedger();
+  res.json(data);
 });
 
-// AI INSIGHT
 app.get("/oracle/analysis", async (req, res) => {
-  try {
-    const data = await AIOracle.analyzeNetwork();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const data = await AIOracle.analyzeNetwork();
+  res.json(data);
 });
 
-// SIMULATE TX
 app.post("/simulate", async (req, res) => {
-  try {
-    const { from, to, amount } = req.body;
-    const result = await AIOracle.simulateTransaction({ from, to, amount });
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const { from, to, amount } = req.body;
+  const result = await AIOracle.simulateTransaction({ from, to, amount });
+  res.json(result);
 });
 
-// PI ACCOUNT
 app.get("/pi/account", async (req, res) => {
-  try {
-    const result = await checkAccount();
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const result = await checkAccount();
+  res.json(result);
 });
 
-// START SERVER
 app.listen(3000, () => {
   console.log("🔥 PiRC API running on http://localhost:3000");
 });
