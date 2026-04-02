@@ -3,17 +3,18 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+
+// HOME
 app.get("/", (req, res) => {
-  res.send("Backend aktif 🚀");
+  res.send("Backend aktif");
 });
 
-app.listen(PORT, () => {
-  console.log("Server jalan di port " + PORT);
-});
+// PI ACCOUNT
 app.get("/pi/account", async (req, res) => {
   try {
-    const result = await rpc.getAccount?.() || {
-      status: "not_implemented",
+    const result = {
+      status: "not implemented",
       message: "rpc.getAccount belum tersedia"
     };
 
@@ -21,4 +22,9 @@ app.get("/pi/account", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// START SERVER
+app.listen(PORT, () => {
+  console.log(`Server jalan di port ${PORT}`);
 });
